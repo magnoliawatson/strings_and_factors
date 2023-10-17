@@ -188,3 +188,44 @@ str_detect(string_vec, "\\[")
     ## [1]  TRUE FALSE  TRUE  TRUE
 
 ## square bracket is a special charachter so it has to be designated with a special charachter “", but this is also a special charchter so we need two”\\
+
+## factors
+
+``` r
+vec_sex = c("male", "male", "female", "female")
+vec_sex
+```
+
+    ## [1] "male"   "male"   "female" "female"
+
+``` r
+vec_sex = factor(c("male", "male", "female", "female"))
+vec_sex
+```
+
+    ## [1] male   male   female female
+    ## Levels: female male
+
+``` r
+as.numeric(vec_sex)
+```
+
+    ## [1] 2 2 1 1
+
+``` r
+vec_sex = fct_relevel(vec_sex, "male")
+vec_sex
+```
+
+    ## [1] male   male   female female
+    ## Levels: male female
+
+``` r
+as.numeric(vec_sex)
+```
+
+    ## [1] 1 1 2 2
+
+## no longer in quotes and have two levels after factor used; levels are in alphabetical order
+
+\##NSDUH

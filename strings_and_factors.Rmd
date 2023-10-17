@@ -113,7 +113,26 @@ str_detect(string_vec, "\\[")
 ```
 ## square bracket is a special charachter so it has to be designated with a special charachter "\", but this is also a special charchter so we need two "\\"
 
-```{r}
 
+
+## factors 
+
+```{r}
+vec_sex = c("male", "male", "female", "female")
+vec_sex
+
+vec_sex = factor(c("male", "male", "female", "female"))
+vec_sex
+
+as.numeric(vec_sex)
+
+vec_sex = fct_relevel(vec_sex, "male")
+vec_sex
+
+as.numeric(vec_sex)
 ```
+## no longer in quotes and have two levels after factor used; levels are in alphabetical order
+
+
+##NSDUH
 
