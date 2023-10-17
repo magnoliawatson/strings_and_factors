@@ -268,3 +268,74 @@ marj_df |>
 ```
 
 <img src="strings_and_factors_files/figure-gfm/unnamed-chunk-11-1.png" width="90%" />
+
+## NYC Restaruant Inspections
+
+``` r
+data("rest_inspec")
+
+rest_inspec |> 
+  group_by(boro, grade) |> 
+  summarize(n = n()) |> 
+  pivot_wider(names_from = grade, values_from = n) %>% 
+  knitr::kable()
+```
+
+    ## `summarise()` has grouped output by 'boro'. You can override using the
+    ## `.groups` argument.
+
+| boro          |     A |     B |    C | Not Yet Graded |   P |    Z |    NA |
+|:--------------|------:|------:|-----:|---------------:|----:|-----:|------:|
+| BRONX         | 13688 |  2801 |  701 |            200 | 163 |  351 | 16833 |
+| BROOKLYN      | 37449 |  6651 | 1684 |            702 | 416 |  977 | 51930 |
+| MANHATTAN     | 61608 | 10532 | 2689 |            765 | 508 | 1237 | 80615 |
+| Missing       |     4 |    NA |   NA |             NA |  NA |   NA |    13 |
+| QUEENS        | 35952 |  6492 | 1593 |            604 | 331 |  913 | 45816 |
+| STATEN ISLAND |  5215 |   933 |  207 |             85 |  47 |  149 |  6730 |
+
+``` r
+rest_inspec =
+  rest_inspec |>
+  filter(grade %in% c("A", "B", "C"), boro != "Missing") |> 
+  mutate(boro = str_to_title(boro),
+         dba = str_to_upper(dba))
+```
+
+pizza places
+
+``` r
+rest_inspec |> 
+  filter(str_detect(dba, "PIZZA")) |> 
+  count(boro)
+```
+
+    ## # A tibble: 5 × 2
+    ##   boro              n
+    ##   <chr>         <int>
+    ## 1 Bronx          1531
+    ## 2 Brooklyn       2305
+    ## 3 Manhattan      2479
+    ## 4 Queens         1954
+    ## 5 Staten Island   471
+
+``` r
+rest_inspec |> 
+  filter(str_detect(dba, "PIZZA")) |> 
+  mutate(boro = fct_infreq(boro)) %>% 
+  ggplot(aes(x = boro, fill = grade)) +
+  geom_bar()
+```
+
+<img src="strings_and_factors_files/figure-gfm/unnamed-chunk-13-1.png" width="90%" />
+
+``` r
+rest_inspec |> 
+  filter(str_detect(dba, "PIZZA")) |> 
+  mutate(
+    boro = fct_infreq(boro),
+    boro = fct_recode(boro, "The City" = "Manhattan")) %>% 
+  ggplot(aes(x = boro, fill = grade)) +
+  geom_bar()
+```
+
+<img src="strings_and_factors_files/figure-gfm/unnamed-chunk-13-2.png" width="90%" />
